@@ -1,0 +1,15 @@
+.body-log-entry {
+    display: flex;
+    margin-bottom: 20px;
+    margin-left: 50px;
+    margin-right: 50px;
+    gap: 35px;
+}
+.body-log-entry > div {
+    flex-grow: 1;
+    gap: 10px;
+}
+.log-action-items{
+    display:flex;
+    justify-content: center;
+}

@@ -1,0 +1,32 @@
+
+<div class="body-log-entry">
+  <!--<div>
+    <span>{{ log.id  }}</span>
+    <span *ngIf="!log.id">...</span>
+  </div>-->
+  <div>
+    <span>{{ log.projectName }}</span>
+    <span *ngIf="!log.projectName">...</span>
+  </div>
+  <div>
+    <span>{{ log.startDateTime | date: 'dd.MM.YYYY HH:mm' }}</span>
+
+  </div>
+  <div>
+    <span>{{ log.endDateTime | date: 'dd.MM.YYYY HH:mm' }}</span>
+    <span *ngIf="!log.endDateTime">...</span>
+  </div>
+  <div>
+    <span>{{ duration }}</span>
+    <span *ngIf="!duration">...</span>
+  </div>
+  <div class="log-action-items">
+    <div *ngIf="!actions">...</div>
+    <div *ngIf="actions">
+      <mat-icon (click)="onEditClick(log)" *ngIf="actions">mode_edit</mat-icon>
+    </div>
+    <div>
+      <mat-icon (click)="onDeleteClick(log)" *ngIf="actions">delete</mat-icon>
+    </div>
+  </div>
+</div>

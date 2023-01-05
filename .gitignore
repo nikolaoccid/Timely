@@ -1,0 +1,45 @@
+# See http://help.github.com/ignore-files/ for more about ignoring files.
+
+# Compiled output
+TimelyFrontend/dist
+TimelyFrontend/tmp
+TimelyFrontend/out-tsc
+TimelyFrontend/bazel-out
+
+# Node
+TimelyFrontend/node_modules
+TimelyFrontend/npm-debug.log
+TimelyFrontend/yarn-error.log
+
+# IDEs and editors
+TimelyFrontend/.idea/
+TimelyFrontend/.project
+TimelyFrontend/.classpath
+TimelyFrontend/.c9/
+TimelyFrontend/*.launch
+TimelyFrontend/.settings/
+TimelyFrontend/*.sublime-workspace
+
+# Visual Studio Code
+TimelyFrontend/vscode/*
+TimelyFrontend/!.vscode/settings.json
+TimelyFrontend/!.vscode/tasks.json
+TimelyFrontend/!.vscode/launch.json
+TimelyFrontend/!.vscode/extensions.json
+TimelyFrontend/history/*
+
+# Miscellaneous
+TimelyFrontend/.angular/cache
+TimelyFrontend/.sass-cache/
+TimelyFrontend/connect.lock
+TimelyFrontend/coverage
+TimelyFrontend/libpeerconnection.log
+TimelyFrontend/testem.log
+TimelyFrontend/typings
+.vs/
+
+# System files
+TimelyFrontend/.DS_Store
+TimelyFrontend/Thumbs.db
+
+T

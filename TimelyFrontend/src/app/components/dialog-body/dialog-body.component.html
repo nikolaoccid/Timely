@@ -1,0 +1,67 @@
+<div *ngIf="data.mode==='add'">
+  <div mat-dialog-title class="dialog-title">
+    <h2>StopTimer</h2>
+  </div>
+
+  <mat-dialog-content class="dialog-items">
+
+    <label>Project name:</label>
+    <mat-form-field>
+      <input matInput [(ngModel)]="data.projectName" required>
+    </mat-form-field>
+
+  </mat-dialog-content>
+
+  <mat-dialog-actions class="dialog-buttons">
+    <button mat-button [mat-dialog-close]="data.projectName"
+            cdkFocusInitial>
+      Stop timer
+    </button>
+  </mat-dialog-actions>
+</div>
+
+
+
+<div *ngIf="data.mode === 'edit'">
+  <div mat-dialog-title class="dialog-title">
+    <h2>Edit Log</h2>
+  </div>
+
+  <mat-dialog-content class="dialog-items">
+
+    <mat-form-field *ngIf="false">
+      <input matInput [(ngModel)]="data.id" value="data.id">
+    </mat-form-field>
+
+    <label>Project name:</label>
+    <mat-form-field>
+      <input matInput [(ngModel)]="data.projectName" value="data.projectName" required>
+    </mat-form-field>
+
+    <label>Start time:</label>
+    <mat-form-field>
+      <input matInput
+             required
+             [(ngModel)]="data.startDateTime"
+             type="datetime-local">
+    </mat-form-field>
+
+    <label>End time:</label>
+    <mat-form-field>
+      <input matInput
+             required
+             [(ngModel)]="data.endDateTime"
+             type="datetime-local">
+    </mat-form-field>
+
+
+  </mat-dialog-content>
+
+  <mat-dialog-actions class="dialog-buttons">
+    <button mat-button [mat-dialog-close]="data"
+            cdkFocusInitial>
+      Save log
+    </button>
+  </mat-dialog-actions>
+</div>
+

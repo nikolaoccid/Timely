@@ -1,0 +1,32 @@
+<div class="app-body">
+  <p *ngIf="!logs"><em>Failed to load the data, please try again.</em></p>
+  <div class="body-actions">
+    <app-button text="{{isCurrentLogStarted ? 'Stop timer': 'Start timer  '}}" (onBtnClick)="onBtnClick()"></app-button>
+    <app-button *ngIf="isCurrentLogStarted" text="Cancel current log" (onBtnClick)="toggleCurrentLogStarted()"></app-button>
+  </div>
+  <div class="body-table-header">
+    <!--<div><h3>Id</h3></div>-->
+    <div><h3>Project name</h3></div>
+    <div><h3>Start time</h3></div>
+    <div><h3>End time</h3></div>
+    <div><h3>Duration</h3></div>
+    <div><h3>Actions</h3></div>
+  </div>
+  <div *ngIf="logs" class="body-table">
+    <app-log-entry *ngIf="isCurrentLogStarted"
+                   [log]="{'startDateTime': startDateTime}"
+                   [actions]="false"></app-log-entry>
+    <div *ngFor="let log of logs">
+      <app-log-entry [log]="log"
+                     (onDelete)="onDelete(log)"
+                     (onEdit)="onEdit(log)"
+                     [duration]="calculateDuration(log.startDateTime, log.endDateTime)"></app-log-entry>
+    </div>
+  </div>
+  <div class="body-actions">
+    <app-button text="Delete all logs" (onBtnClick)="deleteAllLogs()"></app-button>
+    <a href="https://localhost:4200/api/Excel"><button class="btn">Export to Excel</button></a>
+  </div>
+
+</div>
+
