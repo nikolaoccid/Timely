@@ -1,8 +1,4 @@
-## Timely v2
-**Timely v2 which includes pagination feature is available [here](https://github.com/nikolaoccid/Timely/tree/feature/pagination)**
-
-
-# Timely v1
+# Timely
 Timely is a time tracking software used by developers to track how much time they spent on each project they’re working on. 
 Timely can be used for multiple projects and it allows you to log work sessions.
 
@@ -31,8 +27,10 @@ Backend is started with:
 ```
 dotnet run
 ```
-The backend app started, you can access it by going to `http://localhost:5072`.
-Swagger is moved to root level and it can be accessed by opening `http://localhost:5072/`.
+
+The backend app started, you can access it by going to `http://localhost:5072`
+Swagger is moved to root level and it can be accessed by opening `http://localhost:5072/`
+
 
 ### Starting frontend
 Frontend is started with a play arrow(debug mode) inside a visual studio once the project is opened. 

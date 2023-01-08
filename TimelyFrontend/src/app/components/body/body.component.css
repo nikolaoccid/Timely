@@ -28,3 +28,26 @@
   margin: 4px 2px;
   cursor: pointer;
 }
+.pagination-container {
+    margin-bottom: 20px;
+}
+.pagination {
+    margin-left: 5px;
+}
+.pagination-disable-anchor {
+    pointer-events: none;
+    text-decoration: none;
+    color: black;
+    cursor: text;
+}
+  .pagination-disable-anchor::before{
+      content: "[";
+  }
+
+  .pagination-disable-anchor::after {
+    content: " ]";
+  }
+
+  .body-table {
+    min-height: 250px;
+  }

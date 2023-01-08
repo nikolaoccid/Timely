@@ -19,12 +19,13 @@ export class BodyComponent {
   public endDateTime!: Date;
   public isCurrentLogStarted = false;
 
+  public totalNumberOfPages: number = 0;
+  public currentPageNumber: number = 0;
+
   constructor(private apiService: ApiService, private matDialog: MatDialog) { }
 
   ngOnInit() {
-    this.apiService.getLogs().subscribe((res) => {
-      this.logs = res;
-    }, error => console.error(error));
+    this.fetchPage(this.currentPageNumber);
   }
 
   onBtnClick() {
@@ -82,26 +83,6 @@ export class BodyComponent {
     }
   }
 
-
-  updateFrontendLogs(log: Log, mode: string) {
-    if (mode === 'add') {
-      this.logs?.push(log)
-    }
-    if (mode === 'remove') {
-      this.logs = this.logs?.filter(el =>  el.id !== log.id )
-    }
-    if (mode === 'update') {
-      this.logs.forEach((el) => {
-          if (el.id === log.id) {
-            el.projectName = log.projectName;
-            el.startDateTime = new Date(log.startDateTime ?? '');
-            el.endDateTime = new Date(log.endDateTime ?? '');
-          }
-      })
-    }
-  }
-
-
   postLog() {
     const newLog = {
       projectName: this.projectName,
@@ -111,35 +92,37 @@ export class BodyComponent {
 
     try {
       this.apiService.addLog(newLog).subscribe((res) => {
-        this.updateFrontendLogs(res, 'add');
+        this.fetchPaginationInfoAndFetchLastPage();
       })
-    } catch (e) {
-      console.error(e);
     }
-  }
-
+      catch (e) {
+        console.error(e);
+      }
+    }
 
   onDelete(log:Log) {
     try {
-      this.apiService.deleteLog(log).subscribe();
-      this.updateFrontendLogs(log, 'remove')
+      this.apiService.deleteLog(log).subscribe(() => {
+        this.fetchPage(this.currentPageNumber);
+      });
+      
+
     } catch (e) {
       console.error(e);
     }
     
   }
 
-
   onEdit(log: Log) {
     this.openDialog('edit', log)
 
   }
 
-
   editLog(log: Log) {
     try {
-      this.apiService.editLog(log).subscribe();
-      this.updateFrontendLogs(log, 'update')
+      this.apiService.editLog(log).subscribe(() => {
+        this.fetchPage(this.currentPageNumber);
+      });
     } catch (e) {
       console.error(e);
     }
@@ -149,8 +132,35 @@ export class BodyComponent {
     if (this.isCurrentLogStarted) { this.toggleCurrentLogStarted() }
     this.logs.map((el) => {
       this.onDelete(el);
-      this.updateFrontendLogs(el, 'remove')
+        this.fetchPage(this.currentPageNumber);
     })
+  }
+
+  fetchPaginationInfoAndFetchLastPage() {
+  try {
+    this.apiService.getPaginationLogs(-1).subscribe((res) => {
+      this.totalNumberOfPages = res.totalNumberOfPages
+      this.fetchPage(this.totalNumberOfPages - 1);
+    });
+  } catch (e) {
+    console.error(e);
+    }
+  }
+
+  fetchPage(page: number) {
+    try {
+      this.apiService.getPaginationLogs(page).subscribe((res) => {
+        this.logs = res.items;
+        this.currentPageNumber = page
+        this.totalNumberOfPages = res.totalNumberOfPages
+
+        if (this.currentPageNumber > this.totalNumberOfPages - 1) {
+          this.fetchPage(this.totalNumberOfPages - 1)
+        }
+      });
+    } catch (e) {
+      console.error(e);
+    }
   }
 
   calculateDuration(startDateTime, endDateTime) {

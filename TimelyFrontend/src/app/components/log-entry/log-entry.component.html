@@ -23,10 +23,10 @@
   <div class="log-action-items">
     <div *ngIf="!actions">...</div>
     <div *ngIf="actions">
-      <mat-icon (click)="onEditClick(log)" *ngIf="actions">mode_edit</mat-icon>
+      <mat-icon class="action-image" (click)="onEditClick(log)" *ngIf="actions">mode_edit</mat-icon>
     </div>
     <div>
-      <mat-icon (click)="onDeleteClick(log)" *ngIf="actions">delete</mat-icon>
+      <mat-icon class="action-image" (click)="onDeleteClick(log)" *ngIf="actions">delete</mat-icon>
     </div>
   </div>
 </div>

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TimelyBackend;
@@ -28,7 +29,34 @@ namespace TimelyBackend.Controllers
           {
               return NotFound();
           }
-            return await _context.Logs.ToListAsync();
+            return await _context.Logs.ToListAsync();  
+        }
+
+        [HttpGet("pagination")]
+        public async Task<ActionResult<IEnumerable<PaginationDto>>> PaginationGetLogs([FromQuery] int page = 0)
+        {
+            page = page < 0 ? 0 : page;
+            int defaultItemsPerPage = 5;
+            var offset = defaultItemsPerPage * page;
+            var logsQuery = from l in _context.Logs select l;
+            var totalNumberOfItemsInLogs = await logsQuery.CountAsync(); 
+            logsQuery = logsQuery.OrderBy(l => l.ID).Skip(offset).Take(defaultItemsPerPage);
+
+            var logs = await logsQuery.ToListAsync();
+            
+            int numberOfPages = (int)Math.Ceiling((double)totalNumberOfItemsInLogs / defaultItemsPerPage);
+
+
+            var res = new PaginationDto()
+            {
+                Items = logs,
+                CurrentPage = page,
+                TotalLogCount = totalNumberOfItemsInLogs,
+                TotalNumberOfPages= numberOfPages
+            };
+
+            return Ok(res);
+
         }
 
         [HttpGet("{id}")]

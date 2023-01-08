@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import { Log } from '../Log';
+import { PaginationLog } from '../PaginationLog';
 import { toUTCDate } from '../utils/toUTCDate';
 
 const httpOptions = {
@@ -17,13 +18,16 @@ export class ApiService {
 
   constructor(private http: HttpClient) { }
 
+  getPaginationLogs(page: number) {
+    return this.http.get<LogApiPaginationResponseDto>(this.apiUrl + `/pagination?page=${page}`).pipe(map(LogApiPaginationResponseToPaginationLogObject));
+  }
+
   getLogs(): Observable<Log[]> {
-    return this.http.get<LogApiResponseDto[]>(this.apiUrl).pipe(map(logApiResponsesToLogObjects))
+    return this.http.get<LogApiResponseDto[]>(this.apiUrl).pipe(map(logApiResponsesToLogObjects));
   }
 
   addLog(log: Log): Observable<Log> {
     return this.http.post<LogApiResponseDto>(this.apiUrl, log, httpOptions).pipe(map(logApiResponseToLogObject));
-
   }
 
   getLog(id: number): Observable<Log> {
@@ -44,9 +48,6 @@ export class ApiService {
     return this.http.put<Log>(url, log, httpOptions)
   }
 
-  getFileFromApi(): Observable<HttpResponse<Blob>> {
-    return this.http.get<Blob>('api/Excel', { observe: 'response', responseType: 'blob' as 'json' });
-  }
 }
 
 interface LogApiResponseDto {
@@ -67,4 +68,21 @@ function logApiResponseToLogObject(log: LogApiResponseDto): Log {
     endDateTime: new Date(log.endDateTime ?? ''),
     startDateTime: new Date(log.startDateTime ?? ''),
   });
+}
+
+interface LogApiPaginationResponseDto {
+  items: LogApiResponseDto[];
+  currentPage: number;
+  totalLogCount: number;
+  totalNumberOfPages: number;
+}
+
+
+function LogApiPaginationResponseToPaginationLogObject(res: LogApiPaginationResponseDto): PaginationLog {
+  return ({
+    items: res.items ? logApiResponsesToLogObjects(res.items): [],
+    currentPage: res.currentPage,
+    totalLogCount: res.totalLogCount,
+    totalNumberOfPages: res.totalNumberOfPages
+    })
 }
