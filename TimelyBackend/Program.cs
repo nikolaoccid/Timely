@@ -8,7 +8,9 @@ builder.Services.AddCors(options =>
     options.AddDefaultPolicy(
         policy =>
         {
-            policy.WithOrigins("https://timely-backend.azurewebsites.net/");
+            policy.WithOrigins("https://timely-backend.azurewebsites.net")
+            .AllowAnyHeader()
+            .AllowAnyMethod();
         });
 });
 
