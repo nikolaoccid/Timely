@@ -3,7 +3,14 @@ using TimelyBackend;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddCors();
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(
+        policy =>
+        {
+            policy.WithOrigins("https://timely-backend.azurewebsites.net/");
+        });
+});
 
 var connectionString = builder.Configuration.GetConnectionString("TimelyContext");
 builder.Services.AddDbContext<TimelyContext>(x => x.UseNpgsql(connectionString));
@@ -25,7 +32,7 @@ app.UseSwaggerUI(c => {
     c.RoutePrefix = "";
     });
 
-
+app.UseCors();
 app.UseHttpsRedirection();
 
 //app.UseAuthorization();
