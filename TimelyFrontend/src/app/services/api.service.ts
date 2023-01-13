@@ -14,7 +14,7 @@ const httpOptions = {
   providedIn: 'root'
 })
 export class ApiService {
-  private apiUrl = '/api/Logs';
+  private apiUrl = 'https://timely-backend.azurewebsites.net/api/Logs';
 
   constructor(private http: HttpClient) { }
 

@@ -3,6 +3,8 @@ using TimelyBackend;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddCors();
+
 var connectionString = builder.Configuration.GetConnectionString("TimelyContext");
 builder.Services.AddDbContext<TimelyContext>(x => x.UseNpgsql(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
