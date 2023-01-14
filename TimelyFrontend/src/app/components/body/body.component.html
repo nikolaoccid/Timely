@@ -1,5 +1,5 @@
 <div class="app-body">
-  <p *ngIf="!logs"><em>Failed to load the data, please try again.</em></p>
+  <p *ngIf="!logs"><em>Loading data, please wait or try again later.</em></p>
   <div class="body-actions">
     <app-button text="{{isCurrentLogStarted ? 'Stop timer': 'Start timer  '}}" (onBtnClick)="onBtnClick()"></app-button>
     <app-button *ngIf="isCurrentLogStarted" text="Cancel current log" (onBtnClick)="toggleCurrentLogStarted()"></app-button>
